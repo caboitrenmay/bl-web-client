@@ -1,1 +1,1 @@
-export { get } from './httpDefault'
+export {get} from './httpDefault';

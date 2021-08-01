@@ -1,6 +1,4 @@
-import { combineEpics } from 'redux-observable';
-import { fetchNewsEpic } from '.';
+import {combineEpics} from 'redux-observable';
+import {fetchNewsEpic} from '.';
 
-export default combineEpics(
-    fetchNewsEpic
-)
+export default combineEpics(fetchNewsEpic);

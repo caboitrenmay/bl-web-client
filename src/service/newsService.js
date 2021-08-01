@@ -1,6 +1,6 @@
-import { urlBase } from '.';
-import { get } from './httpClient';
+import {urlBase} from '.';
+import {get} from './httpClient';
 
-export const getNewsService = (sectionIndex) => {
-    return get(urlBase[sectionIndex])
-}
+export const getNewsService = sectionIndex => {
+  return get(urlBase[sectionIndex]);
+};
