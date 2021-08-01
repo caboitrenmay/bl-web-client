@@ -1,5 +1,6 @@
 export {default as logger} from '../../helper/logger';
 
+// eslint-disable-next-line no-undef
 export const baseUrl = process.env.REACT_APP_BASE_API_URL;
 export const ERROR_CONNECTION = (url, err) => {
   return {

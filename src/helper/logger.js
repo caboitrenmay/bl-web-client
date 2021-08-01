@@ -6,6 +6,7 @@ const logger = (message, data) => {
 };
 
 function isLoggerMode() {
+  // eslint-disable-next-line no-undef
   const type = process.env.REACT_APP_BASE;
   if (type && type === 'production') {
     return false;

@@ -10,7 +10,7 @@ let item2;
 let item3;
 let content;
 
-let subContent;
+// let subContent;
 
 const handleClick = (props, index) => {
   const {news} = props;
@@ -51,7 +51,7 @@ const converImg = content => {
 const Item = (value, index, isFirst = false) => (
   <div key={index} className={isFirst ? 'story is-first' : 'story'}>
     <div className="story__thumb">
-      <a href={value.link} target="_blank" title={value.title}>
+      <a href={value.link} target="_blank" title={value.title} rel="noreferrer">
         <img
           src={converImg(
             value['content:encoded'] ? value['content:encoded'] : value.content,
@@ -63,7 +63,7 @@ const Item = (value, index, isFirst = false) => (
     </div>
 
     <h4 className="story__heading">
-      <a href={value.link} title={value.title} target="_blank">
+      <a href={value.link} title={value.title} target="_blank" rel="noreferrer">
         {value.title}
       </a>
     </h4>
@@ -93,7 +93,7 @@ const Item = (value, index, isFirst = false) => (
 //     </div>
 // }
 
-function NavMenu(listMenu, done) {
+function NavMenu(listMenu) {
   return (
     <div className="nav-wrap-2020">
       <div className="nav full-menu">
@@ -160,9 +160,9 @@ export default function Home(props) {
     //logger('HOME render items: ', items[0]['content:encoded'])
     if (items && items.length > 0) {
       content = items.map((value, index) => Item(value, index));
-      subContent = items.map((value, index) => {
-        if (index < 10) return Item(value, index);
-      });
+      // subContent = items.map((value, index) => {
+      //   if (index < 10) return Item(value, index);
+      // });
 
       try {
         item0 = Item(items[0], 0);
