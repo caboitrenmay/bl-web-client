@@ -4,12 +4,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'prettier',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -17,6 +12,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+  ],
   settings: {
     react: {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
