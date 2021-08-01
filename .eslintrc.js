@@ -22,9 +22,8 @@ module.exports = {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
     },
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react'],
   rules: {
-    'prettier/prettier': 'error',
     'react/prop-types': 0,
     'linebreak-style': ['error', 'unix'],
     'arrow-body-style': 'off',
