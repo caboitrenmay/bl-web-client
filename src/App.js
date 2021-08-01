@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import HomeContainer from './container';
+import {NewsContainer} from './application';
 
 function App() {
-  return <HomeContainer />;
+  return <NewsContainer />;
 }
 
 export default App;
