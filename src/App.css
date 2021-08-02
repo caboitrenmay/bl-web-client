@@ -123,3 +123,19 @@
     transform: translate(24px, 0);
   }
 }
+
+.fixed-loading {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  left: 10px;
+  z-index: 2021;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,22 +1,208 @@
-import './home.css';
 import React, {useEffect} from 'react';
 import {logger} from '../../config';
-import {loading} from '../component/Util';
 import {urlTitle} from '../../domain';
+import './NewsPage.css';
+import moment from 'moment';
+import Wrapper from '../component/Wrapper';
 
-let item0;
-let item1;
-let item2;
-let item3;
-let content;
+function Header(props) {
+  const {indexSelected} = props;
+  logger('index selected: ', indexSelected);
 
-// let subContent;
+  const Item = urlTitle.map((value, index) => (
+    <li
+      key={index}
+      className={indexSelected === index ? 'nav-item active' : 'nav-item'}
+      onClick={() => handleClick(props, index)}>
+      <a className="nav-link" href="#">
+        {value}{' '}
+        {indexSelected === index ? (
+          <span className="sr-only">(current)</span>
+        ) : null}
+      </a>
+    </li>
+  ));
+
+  return (
+    <header>
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a className="navbar-brand" href="#">
+          Báo Lướt
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarCollapse">
+          <ul className="navbar-nav mr-auto">{Item}</ul>
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+function Slider({data}) {
+  logger('Slider: ', data);
+  if (!data) {
+    return null;
+  }
+  const SliderItem = data.map((value, index) => (
+    <a
+      target="_blank"
+      href={value.link}
+      rel="noreferrer"
+      key={index}
+      className={index === 0 ? 'carousel-item  active' : 'carousel-item '}>
+      <svg
+        className="bd-placeholder-img"
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label=" :  "
+        preserveAspectRatio="xMidYMid slice"
+        focusable="false">
+        <title />
+        <rect width="100%" height="100%" fill="#777" />
+        <text x="50%" y="50%" fill="#777" dy=".3em" />
+      </svg>
+      <div className="container">
+        <div className="carousel-caption text-left">
+          <h1>{value.title}</h1>
+          <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+          <p>
+            <button className="btn btn-lg btn-primary">Xem chi tiết</button>
+          </p>
+        </div>
+      </div>
+    </a>
+  ));
+
+  return (
+    <div id="myCarousel" className="carousel slide" data-ride="carousel">
+      <ol className="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to={0} className="active" />
+        <li data-target="#myCarousel" data-slide-to={1} />
+        <li data-target="#myCarousel" data-slide-to={2} />
+      </ol>
+      <div className="carousel-inner">{SliderItem}</div>
+      <a
+        className="carousel-control-prev"
+        href="#myCarousel"
+        role="button"
+        data-slide="prev">
+        <span className="carousel-control-prev-icon" aria-hidden="true" />
+        <span className="sr-only">Previous</span>
+      </a>
+      <a
+        className="carousel-control-next"
+        href="#myCarousel"
+        role="button"
+        data-slide="next">
+        <span className="carousel-control-next-icon" aria-hidden="true" />
+        <span className="sr-only">Next</span>
+      </a>
+    </div>
+  );
+}
+
+function Row({data}) {
+  const RowItem = data.map((value, index) => (
+    <div key={index} className="col-lg-4">
+      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+      <h2>{value.title}</h2>
+      <p>
+        <a className="btn btn-secondary" href="#">
+          Xem chi tiết &raquo;
+        </a>
+      </p>
+    </div>
+  ));
+
+  return <div className="row">{RowItem}</div>;
+}
+
+function RowFeature({data}) {
+  if (!data) {
+    return null;
+  }
+  return data.map((value, index) => (
+    <a key={index} target="_blank" href={value.link} rel="noreferrer">
+      <div className="row featurette">
+        <div className="col-md-7">
+          <div className="featurette-heading">{value.title}</div>
+          <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
+        </div>
+        <div className="col-md-5">
+          <p
+            className="lead"
+            dangerouslySetInnerHTML={{__html: value.content}}></p>
+        </div>
+      </div>
+      <Divider />
+    </a>
+  ));
+}
+
+function Divider() {
+  return <hr className="featurette-divider" />;
+}
+
+function Marketing({data}) {
+  if (!data) {
+    return null;
+  }
+  // const row = data.slice(0, 3);
+  return (
+    <div className="container marketing">
+      {/* <Row data={row} />
+      <Divider /> */}
+      <RowFeature data={data} />
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="container">
+      <p className="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <p>
+        &copy; 2021 Báo Lướt, Inc. &middot;
+        <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+      </p>
+    </footer>
+  );
+}
+
+function Main(props) {
+  logger('Main props: ', props);
+  const {items} = props || [];
+  if (!items) {
+    return null;
+  }
+  const slider = items.slice(0, 3) || [];
+  return (
+    <main role="main">
+      <Slider data={slider} />
+      <Marketing data={items} />
+      <Footer />
+    </main>
+  );
+}
 
 const handleClick = (props, index) => {
   try {
     const {news} = props;
     const section = urlTitle[index];
-    logger('section: ', section);
+    logger('click section: ', section);
     if (news.length === 0) {
       return props.fetchNews(index);
     }
@@ -34,158 +220,19 @@ const handleClick = (props, index) => {
   }
 };
 
-const converImg = content => {
-  //logger("content", content)
-
-  const img = content.match(/<img(.*)>/);
-
-  if (!img) {
-    return 'https://reactnative.dev/img/tiny_logo.png';
-  }
-  //logger('img: ', img[0])
-
-  const r = img[0].match(/src="(.*)g"/);
-  if (!r || !r[1]) {
-    return 'https://reactnative.dev/img/tiny_logo.png';
-  }
-
-  const v = r[1] + 'g';
-  //logger("converImg", v)
-  const arr = v.split(' "');
-  //logger("converImg final", arr[0])
-
-  return arr ? arr[0] : 'https://reactnative.dev/img/tiny_logo.png';
-};
-
-const Item = (value, index, isFirst = false) => (
-  <div key={index} className={isFirst ? 'story is-first' : 'story'}>
-    <div className="story__thumb">
-      <a href={value.link} target="_blank" title={value.title} rel="noreferrer">
-        <img
-          src={converImg(
-            value['content:encoded'] ? value['content:encoded'] : value.content,
-          )}
-          alt={value.title}
-          title={value.title}
-        />
-      </a>
-    </div>
-
-    <h4 className="story__heading">
-      <a href={value.link} title={value.title} target="_blank" rel="noreferrer">
-        {value.title}
-      </a>
-    </h4>
-
-    <div className="story__meta">
-      <time className="time friendly">{value.pubDate}</time>
-    </div>
-
-    <img
-      className="lazy"
-      data-src={converImg(value.content)}
-      src={converImg(value.content)}
-    />
-  </div>
-);
-
-// function NavMenu(listMenu, done) {
-//     return <div className="nav-wrap-2020">
-//         <div className="nav full-menu">
-//             <div className="container">
-//                 <div className="nav__menu">
-//                     {listMenu}
-//                 </div>
-//                 {loading(done)}
-//             </div>
-//         </div>
-//     </div>
-// }
-
-function NavMenu(listMenu) {
-  return (
-    <div className="nav-wrap-2020">
-      <div className="nav full-menu">
-        <div className="nav__menu">{listMenu}</div>
-      </div>
-    </div>
-  );
-}
-
-function Container(done) {
-  return (
-    <div className="main-container">
-      {loading(done)}
-
-      <div className="container">
-        <div className="main-col">
-          <div data-track="|hotnews">
-            <div className="rank1-stories">{item0}</div>
-            <div className="rank2-stories">
-              {item1}
-              {item2}
-              {item3}
-            </div>
-
-            <div className="timeline loadmore" data-track="|timeline">
-              {content}
-            </div>
-          </div>
-        </div>
-
-        {/* <div className="sub-col">
-                <div className="sidebar">
-                    <div className="small-list newest-box" data-track="|newest_box">
-                        {subContent}
-                    </div>
-                </div>
-            </div> */}
-      </div>
-    </div>
-  );
-}
-
 export default function NewsPage(props) {
-  // RENDER
   const {news, indexSelected} = props;
 
-  const listMenu = urlTitle.map((value, index) => (
-    <a
-      key={index}
-      className={indexSelected === index ? 'popular is-active' : 'latest'}
-      href="#"
-      onClick={() => handleClick(props, index)}>
-      <span>{value}</span>
-      {/* <span className="number">39</span> */}
-    </a>
-  ));
-
-  logger('Home news:', news);
+  // logger('Home news:', news);
   const section = urlTitle[indexSelected];
-  logger('Home indexSelected:', indexSelected);
+  // logger('Home indexSelected:', indexSelected);
+
+  let main = {};
   if (news && news[section]) {
+    main = news[section];
     const {items} = news[section];
-    //logger('HOME render items: ', items)
-    //logger('HOME render items: ', items[0]['content:encoded'])
-    if (items && items.length > 0) {
-      content = items.map((value, index) => Item(value, index));
-      // subContent = items.map((value, index) => {
-      //   if (index < 10) return Item(value, index);
-      // });
-
-      try {
-        item0 = Item(items[0], 0);
-        item1 = Item(items[1], 1, true);
-        item2 = Item(items[2], 2);
-        item3 = Item(items[3], 3);
-      } catch (error) {
-        logger('HOME render ERROR: ', error);
-      }
-    }
+    logger('items news:', items);
   }
-
-  // Declare a new state variable, which we'll call "content"
-  //const [content, setContent] = useState("");
 
   useEffect(() => {
     logger('Home useEffect:', news);
@@ -195,9 +242,9 @@ export default function NewsPage(props) {
   });
 
   return (
-    <div className="wrapper homepage_page">
-      {NavMenu(listMenu, props.done)}
-      {Container(props.done)}
-    </div>
+    <Wrapper {...props}>
+      <Header {...props} />
+      <Main {...main} />
+    </Wrapper>
   );
 }
