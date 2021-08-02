@@ -139,3 +139,17 @@ a:active {
   text-decoration: none;
   color: inherit;
 }
+
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.text-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.active {
+  background-color: #6f42c1;
+}
