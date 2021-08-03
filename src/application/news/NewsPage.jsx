@@ -14,7 +14,11 @@ function Header(props) {
       key={index}
       className={indexSelected === index ? 'nav-item active' : 'nav-item'}
       onClick={() => handleClick(props, index)}>
-      <a className="nav-link" href="#" data-toggle="collapse" data-target=".navbar-collapse.show">
+      <a
+        className="nav-link"
+        href="#"
+        data-toggle="collapse"
+        data-target=".navbar-collapse.show">
         {value}{' '}
         {indexSelected === index ? (
           <span className="sr-only">(current)</span>
@@ -59,7 +63,20 @@ function Slider({data}) {
       rel="noreferrer"
       key={index}
       className={index === 0 ? 'carousel-item  active' : 'carousel-item '}>
-      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+      {/* <p dangerouslySetInnerHTML={{__html: value.content}}></p> */}
+      <svg
+        className="bd-placeholder-img"
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label=" :  "
+        preserveAspectRatio="xMidYMid slice"
+        focusable="false">
+        <title />
+        <rect width="100%" height="100%" fill="#777" />
+        <text x="50%" y="50%" fill="#777" dy=".3em" />
+      </svg>
       <div className="container">
         <div className="carousel-caption text-left">
           <h1>{value.title}</h1>
@@ -101,15 +118,15 @@ function Slider({data}) {
 
 function Row({data}) {
   const RowItem = data.map((value, index) => (
-    <div key={index} className="col-lg-4">
-      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+    <a
+      key={index}
+      className="col-lg-4"
+      target="_blank"
+      href={value.link}
+      rel="noreferrer">
       <h2>{value.title}</h2>
-      <p>
-        <a className="btn btn-secondary" href="#">
-          Xem chi tiết &raquo;
-        </a>
-      </p>
-    </div>
+      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+    </a>
   ));
 
   return <div className="row">{RowItem}</div>;
@@ -145,11 +162,11 @@ function Marketing({data}) {
   if (!data) {
     return null;
   }
-  // const row = data.slice(0, 3);
+  const row = data.slice(0, 3);
   return (
     <div className="container marketing">
-      {/* <Row data={row} />
-      <Divider /> */}
+      <Row data={row} />
+      <Divider />
       <RowFeature data={data} />
     </div>
   );
