@@ -14,7 +14,7 @@ function Header(props) {
       key={index}
       className={indexSelected === index ? 'nav-item active' : 'nav-item'}
       onClick={() => handleClick(props, index)}>
-      <a className="nav-link" href="#">
+      <a className="nav-link" href="#" data-toggle="collapse" data-target=".navbar-collapse.show">
         {value}{' '}
         {indexSelected === index ? (
           <span className="sr-only">(current)</span>
@@ -25,7 +25,7 @@ function Header(props) {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <nav className="navbar navbar-expand-md navbar-dark fixed-top active">
         <a className="navbar-brand" href="#">
           Báo Lướt
         </a>

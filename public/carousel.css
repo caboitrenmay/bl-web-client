@@ -58,6 +58,7 @@ body {
 
 /* Thin out the marketing headings */
 .featurette-heading {
+  font-size: 20px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.05rem;
@@ -75,7 +76,7 @@ body {
   }
 
   .featurette-heading {
-    font-size: 50px;
+    font-size: 30px;
   }
 }
 
