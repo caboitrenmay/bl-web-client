@@ -25,7 +25,7 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'react/prop-types': 0,
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 0,
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
   },

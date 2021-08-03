@@ -59,23 +59,10 @@ function Slider({data}) {
       rel="noreferrer"
       key={index}
       className={index === 0 ? 'carousel-item  active' : 'carousel-item '}>
-      <svg
-        className="bd-placeholder-img"
-        width="100%"
-        height="100%"
-        xmlns="http://www.w3.org/2000/svg"
-        role="img"
-        aria-label=" :  "
-        preserveAspectRatio="xMidYMid slice"
-        focusable="false">
-        <title />
-        <rect width="100%" height="100%" fill="#777" />
-        <text x="50%" y="50%" fill="#777" dy=".3em" />
-      </svg>
+      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
       <div className="container">
         <div className="carousel-caption text-left">
           <h1>{value.title}</h1>
-          <p dangerouslySetInnerHTML={{__html: value.content}}></p>
           <p>
             <button className="btn btn-lg btn-primary">Xem chi tiết</button>
           </p>
