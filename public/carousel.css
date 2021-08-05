@@ -17,8 +17,11 @@ body {
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
-  bottom: 3rem;
+  /* bottom: 3rem; */
   z-index: 10;
+}
+.carousel-caption > h1 {
+  font-size: 1.75rem;
 }
 
 /* Declare heights because of positioning of img element */
@@ -53,12 +56,12 @@ body {
 ------------------------- */
 
 .featurette-divider {
-  margin: 0.5rem 0; /* Space out the Bootstrap <hr> more */
+  margin: 0rem 0; /* Space out the Bootstrap <hr> more */
 }
 
 /* Thin out the marketing headings */
 .featurette-heading {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.05rem;
@@ -76,12 +79,21 @@ body {
   }
 
   .featurette-heading {
-    font-size: 30px;
+    font-size: 1.75rem;
+  }
+
+  .carousel-caption > h1 {
+    font-size: 2rem;
   }
 }
 
 @media (min-width: 62em) {
   .featurette-heading {
-    margin-top: 1rem;
+    font-size: 2rem;
+    margin-top: 0rem;
+  }
+
+  .carousel-caption > h1 {
+    font-size: 2.5rem;
   }
 }

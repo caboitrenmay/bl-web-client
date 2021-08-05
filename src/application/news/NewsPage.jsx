@@ -125,6 +125,7 @@ function Row({data}) {
       href={value.link}
       rel="noreferrer">
       <h2>{value.title}</h2>
+      <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
       <p dangerouslySetInnerHTML={{__html: value.content}}></p>
     </a>
   ));
@@ -139,11 +140,11 @@ function RowFeature({data}) {
   return data.map((value, index) => (
     <a key={index} target="_blank" href={value.link} rel="noreferrer">
       <div className="row featurette">
-        <div className="col-md-7">
+        <div className="col-md-5">
           <div className="featurette-heading">{value.title}</div>
           <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
         </div>
-        <div className="col-md-5">
+        <div className="col-md-7">
           <p
             className="lead"
             dangerouslySetInnerHTML={{__html: value.content}}></p>
@@ -162,11 +163,10 @@ function Marketing({data}) {
   if (!data) {
     return null;
   }
-  const row = data.slice(0, 3);
+  // const row = data.slice(0, 3);
   return (
     <div className="container marketing">
-      <Row data={row} />
-      <Divider />
+      {/* <Row data={row} /> */}
       <RowFeature data={data} />
     </div>
   );
@@ -204,6 +204,7 @@ function Main(props) {
 
 const handleClick = (props, index) => {
   try {
+    window.scroll({top: 0, left: 0, behavior: 'smooth'});
     const {news} = props;
     const section = urlTitle[index];
     logger('click section: ', section);
