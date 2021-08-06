@@ -1,4 +1,4 @@
-import {logger} from '../../config';
+import {NewsRepositoryImpl} from '../../data';
 import {NewsService, urlTitle} from '../../domain';
 import {
   GET_NEWS_CACHE,
@@ -7,7 +7,6 @@ import {
   GET_NEWS_TODO,
   SELECT_NEWS_INDEX,
 } from './news-types';
-import {NewsRepositoryImpl} from '../../data';
 
 /*
  * action creators
@@ -31,15 +30,19 @@ export const selectNewsIndex = indexSelected => ({
 const service = new NewsService(new NewsRepositoryImpl());
 export const fetchNews = indexSelected => async dispatch => {
   try {
-    logger(`sectionIndex:`, indexSelected);
+    console.log(`sectionIndex:`, indexSelected);
     dispatch(selectNewsIndex(indexSelected));
     dispatch(getNewsTodo(indexSelected));
     const key = urlTitle[indexSelected];
     const response = await service.getNews(indexSelected);
-    logger('thunk - fetchNews: ', response);
-    dispatch(getNewsDone({key: key, data: response}));
+    console.log('thunk - fetchNews: ', response);
+    if (response.error) {
+      dispatch(getNewsFail(response.error));
+    } else {
+      dispatch(getNewsDone({key: key, data: response}));
+    }
   } catch (error) {
-    logger('thunk - fetchNews: ', error);
+    console.error('thunk - fetchNews: ', error);
     dispatch(getNewsFail(error));
   }
 };

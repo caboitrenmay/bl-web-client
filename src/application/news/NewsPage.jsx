@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {logger} from '../../config';
 import {urlTitle} from '../../domain';
 import './NewsPage.css';
 import moment from 'moment';
@@ -7,7 +6,7 @@ import Wrapper from '../component/Wrapper';
 
 function Header(props) {
   const {indexSelected} = props;
-  logger('index selected: ', indexSelected);
+  console.log('index selected: ', indexSelected);
 
   const Item = urlTitle.map((value, index) => (
     <li
@@ -52,7 +51,7 @@ function Header(props) {
 }
 
 function Slider({data}) {
-  logger('Slider: ', data);
+  console.log('Slider: ', data);
   if (!data) {
     return null;
   }
@@ -187,7 +186,7 @@ function Footer() {
 }
 
 function Main(props) {
-  logger('Main props: ', props);
+  console.log('Main props: ', props);
   const {items} = props || [];
   if (!items) {
     return null;
@@ -207,13 +206,13 @@ const handleClick = (props, index) => {
     window.scroll({top: 0, left: 0, behavior: 'smooth'});
     const {news} = props;
     const section = urlTitle[index];
-    logger('click section: ', section);
+    console.log('click section: ', section);
     if (news.length === 0) {
       return props.fetchNews(index);
     }
 
     const data = news[section] || null;
-    logger(`click ${index}: `, data);
+    console.log(`click ${index}: `, data);
 
     if (data) {
       props.selectNewsIndex(index);
@@ -221,26 +220,26 @@ const handleClick = (props, index) => {
       props.fetchNews(index);
     }
   } catch (e) {
-    logger(e);
+    console.log(e);
   }
 };
 
 export default function NewsPage(props) {
   const {news, indexSelected} = props;
 
-  // logger('Home news:', news);
+  // console.log('Home news:', news);
   const section = urlTitle[indexSelected];
-  // logger('Home indexSelected:', indexSelected);
+  // console.log('Home indexSelected:', indexSelected);
 
   let main = {};
   if (news && news[section]) {
     main = news[section];
     const {items} = news[section];
-    logger('items news:', items);
+    console.log('items news:', items);
   }
 
   useEffect(() => {
-    logger('Home useEffect:', news);
+    console.log('Home useEffect:', news);
     if (indexSelected === -1) {
       props.fetchNews(0);
     }

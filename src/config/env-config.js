@@ -20,16 +20,8 @@ export const ERROR_CONNECTION = (url, err) => {
   };
 };
 
-// logger
-const logger = (message, data) => {
-  if (!isLoggerMode()) {
-    return;
-  }
-  return console.log(message, data);
-};
 function isLoggerMode() {
   const base = envConfig.base;
   return !(base && base === 'production');
 }
 export const IS_LOGGER = isLoggerMode();
-export {logger};
