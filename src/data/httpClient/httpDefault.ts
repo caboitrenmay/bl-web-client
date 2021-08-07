@@ -4,8 +4,7 @@ const fullUrl = (path: string) => baseUrl + path;
 
 export async function http<T>(request: RequestInfo): Promise<T> {
   const response = await fetch(request);
-  const body = await response.json();
-  return body;
+  return await response.json();
 }
 
 export async function get<T>(
@@ -17,7 +16,8 @@ export async function get<T>(
 
 export async function post<T>(
   path: string,
-  body: any,
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  body: never,
   args: RequestInit = {method: 'post', body: JSON.stringify(body)},
 ): Promise<T> {
   return await http<T>(new Request(fullUrl(path), args));
@@ -25,7 +25,8 @@ export async function post<T>(
 
 export async function put<T>(
   path: string,
-  body: any,
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  body: never,
   args: RequestInit = {method: 'put', body: JSON.stringify(body)},
 ): Promise<T> {
   return await http<T>(new Request(fullUrl(path), args));
