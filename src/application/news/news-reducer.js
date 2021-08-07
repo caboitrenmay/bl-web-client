@@ -1,21 +1,14 @@
-import {
-  GET_NEWS_CACHE,
-  GET_NEWS_DONE,
-  GET_NEWS_FAIL,
-  GET_NEWS_TODO,
-  SELECT_NEWS_INDEX,
-} from './news-types';
+import {GET_NEWS_DONE, GET_NEWS_FAIL, GET_NEWS_TODO} from './news-types';
 
 const initState = () => ({
   done: true,
   indexSelected: -1,
-  news: [],
+  news: {},
 });
 
 function newsReducer(state, action) {
   if (!state) {
     state = initState();
-    //localStorage.clear()
   }
 
   const payload = action.payload;
@@ -23,14 +16,7 @@ function newsReducer(state, action) {
     case GET_NEWS_TODO:
       return {
         ...state,
-        done: false,
-      };
-    case GET_NEWS_CACHE:
-      if (action.payload && action.payload.key && action.payload.data) {
-        state.news[action.payload.key] = action.payload.data;
-      }
-      return {
-        ...state,
+        indexSelected: action.payload,
         done: false,
       };
     case GET_NEWS_DONE:
@@ -48,11 +34,6 @@ function newsReducer(state, action) {
       return {
         ...state,
         done: true,
-      };
-    case SELECT_NEWS_INDEX:
-      return {
-        ...state,
-        indexSelected: action.payload,
       };
     default:
       return state;

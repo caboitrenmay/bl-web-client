@@ -225,21 +225,7 @@ function Main(props) {
 const handleClick = (props, index) => {
   try {
     window.scroll({top: 0, left: 0, behavior: 'smooth'});
-    const {news} = props;
-    const section = urlTitle[index];
-    console.log('click section: ', section);
-    if (news.length === 0) {
-      return props.fetchNews(index);
-    }
-
-    const data = news[section] || null;
-    console.log(`click ${index}: `, data);
-
-    if (data) {
-      props.selectNewsIndex(index);
-    } else {
-      props.fetchNews(index);
-    }
+    return props.fetchNews(index);
   } catch (e) {
     console.log(e);
   }
@@ -264,7 +250,7 @@ export default function NewsPage(props) {
     if (indexSelected === -1) {
       props.fetchNews(0);
     }
-  });
+  }, [indexSelected]);
 
   return (
     <Wrapper {...props}>

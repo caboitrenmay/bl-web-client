@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import {IS_LOGGER} from '../config';
+import {IS_LOGGER} from './index';
 import {newsReducer} from '../application';
 
 // redux with Middleware thunk

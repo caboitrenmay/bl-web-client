@@ -7,21 +7,13 @@ const envConfig = {
 
 console.log('===>  env: ', envConfig);
 
-export {envConfig};
-
 // api url
-export const baseUrl = envConfig.baseApiUrl;
-export const ERROR_CONNECTION = (url, err) => {
-  return {
-    success: false,
-    message: `Lỗi kết nối với server`,
-    url: url,
-    error: err,
-  };
-};
+const baseUrl = envConfig.baseApiUrl;
 
 function isLoggerMode() {
   const base = envConfig.base;
   return !(base && base === 'production');
 }
-export const IS_LOGGER = isLoggerMode();
+const IS_LOGGER = isLoggerMode();
+
+export {envConfig, baseUrl, IS_LOGGER};
