@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {GrowingFullSpinner} from './Util';
 
 export function BaseModal(props) {
   return (
@@ -25,6 +26,11 @@ export function BaseModal(props) {
             data-dismiss="modal">
             {props.cancel || 'Close'}
           </button>
+          {props.loading && (
+            <div className="mx-auto">
+              <GrowingFullSpinner />
+            </div>
+          )}
           <button
             type="button"
             className="btn btn-primary"
@@ -38,7 +44,19 @@ export function BaseModal(props) {
 }
 
 export function NewsModal({title, link}) {
-  const body = <iframe src={link} className="news-iframe" />;
+  const iframe = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const body = <iframe src={link} className="news-iframe" ref={iframe} />;
+
+  useEffect(() => {
+    console.log('useEffect');
+    if (iframe.current) {
+      iframe.current.addEventListener('load', () => {
+        console.error('iframe loaded');
+        setLoading(false);
+      });
+    }
+  }, [link]);
 
   return (
     <div
@@ -47,7 +65,9 @@ export function NewsModal({title, link}) {
       tabIndex="-1"
       aria-labelledby="newsModal"
       aria-hidden="true">
-      <BaseModal title={title}>{body}</BaseModal>
+      <BaseModal title={title} loading={loading}>
+        {body}
+      </BaseModal>
     </div>
   );
 }
