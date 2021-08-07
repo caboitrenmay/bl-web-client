@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {urlTitle} from '../../domain';
 import './NewsPage.css';
 import moment from 'moment';
 import Wrapper from '../component/Wrapper';
+import {NewsModal} from '../component/BaseModal';
 
 function Header(props) {
   const {indexSelected} = props;
@@ -50,15 +51,13 @@ function Header(props) {
   );
 }
 
-function Slider({data}) {
+function Slider({data, selectItem}) {
   console.log('Slider: ', data);
   if (!data) {
     return null;
   }
   const SliderItem = data.map((value, index) => (
-    <a
-      target="_blank"
-      href={value.link}
+    <div
       rel="noreferrer"
       key={index}
       className={index === 0 ? 'carousel-item  active' : 'carousel-item '}>
@@ -80,11 +79,17 @@ function Slider({data}) {
         <div className="carousel-caption text-left">
           <h1>{value.title}</h1>
           <p>
-            <button className="btn btn-lg btn-primary">Xem chi tiết</button>
+            <button
+              className="btn btn-lg btn-primary"
+              data-toggle="modal"
+              data-target="#newsModal"
+              onClick={() => selectItem(value)}>
+              Xem chi tiết
+            </button>
           </p>
         </div>
       </div>
-    </a>
+    </div>
   ));
 
   return (
@@ -125,19 +130,25 @@ function Row({data}) {
       rel="noreferrer">
       <h2>{value.title}</h2>
       <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
-      <p dangerouslySetInnerHTML={{__html: value.content}}></p>
+      <p dangerouslySetInnerHTML={{__html: value.content}} />
     </a>
   ));
 
   return <div className="row">{RowItem}</div>;
 }
 
-function RowFeature({data}) {
+function RowFeature({data, selectItem}) {
   if (!data) {
     return null;
   }
   return data.map((value, index) => (
-    <a key={index} target="_blank" href={value.link} rel="noreferrer">
+    <a
+      key={index}
+      data-toggle="modal"
+      data-target="#newsModal"
+      onClick={() => selectItem(value)}
+      href="#"
+      rel="noreferrer">
       <div className="row featurette">
         <div className="col-md-5">
           <div className="featurette-heading">{value.title}</div>
@@ -146,7 +157,8 @@ function RowFeature({data}) {
         <div className="col-md-7">
           <p
             className="lead"
-            dangerouslySetInnerHTML={{__html: value.content}}></p>
+            dangerouslySetInnerHTML={{__html: value.content}}
+          />
         </div>
       </div>
       <Divider />
@@ -158,7 +170,7 @@ function Divider() {
   return <hr className="featurette-divider" />;
 }
 
-function Marketing({data}) {
+function Marketing({data, selectItem}) {
   if (!data) {
     return null;
   }
@@ -166,7 +178,7 @@ function Marketing({data}) {
   return (
     <div className="container marketing">
       {/* <Row data={row} /> */}
-      <RowFeature data={data} />
+      <RowFeature data={data} selectItem={selectItem} />
     </div>
   );
 }
@@ -191,12 +203,21 @@ function Main(props) {
   if (!items) {
     return null;
   }
+
+  const [currentNews, setCurrentNews] = useState({});
+  const selectItem = news => {
+    console.log('selected :', news);
+    setCurrentNews(news);
+  };
+  console.log('currentNews :', currentNews);
+
   const slider = items.slice(0, 3) || [];
   return (
     <main role="main">
-      <Slider data={slider} />
-      <Marketing data={items} />
+      <Slider data={slider} selectItem={selectItem} />
+      <Marketing data={items} selectItem={selectItem} />
       <Footer />
+      <NewsModal {...currentNews} />
     </main>
   );
 }

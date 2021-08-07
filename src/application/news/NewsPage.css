@@ -45,3 +45,9 @@
     height: 160px;
   }
 }
+
+.news-iframe {
+  height: 1000px;
+  width: 100%;
+  border: none;
+}
