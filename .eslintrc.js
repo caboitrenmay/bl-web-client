@@ -28,5 +28,6 @@ module.exports = {
     'linebreak-style': 0,
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
 };

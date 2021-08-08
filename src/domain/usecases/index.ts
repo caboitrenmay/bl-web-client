@@ -1,1 +1,1 @@
-export * from './NewsService';
+export * from './NewsUsecase';

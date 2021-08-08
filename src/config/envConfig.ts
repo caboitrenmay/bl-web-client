@@ -16,4 +16,4 @@ function isLoggerMode() {
 }
 const IS_LOGGER = isLoggerMode();
 
-export {envConfig, baseUrl, IS_LOGGER};
+export { envConfig, baseUrl, IS_LOGGER };

@@ -1,7 +1,7 @@
-import {News} from '../entities';
-import {NewsRepository} from '../repositories';
+import { News } from '../entities';
+import { NewsRepository } from '../repositories';
 
-export class NewsService {
+export class NewsUsecase {
   private repo: NewsRepository;
 
   constructor(repo: NewsRepository) {

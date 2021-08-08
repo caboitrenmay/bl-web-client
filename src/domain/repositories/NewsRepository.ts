@@ -1,4 +1,4 @@
-import {News} from '../entities';
+import { News } from '../entities';
 
 export interface NewsRepository {
   getNews(sectionIndex: number): Promise<News>;

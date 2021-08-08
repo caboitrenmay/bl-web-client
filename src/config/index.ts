@@ -1,2 +1,2 @@
-export * from './env-config';
-export * from './redux-config';
+export * from './envConfig';
+export * from './redux';
