@@ -47,7 +47,6 @@ export default function NewsPage() {
     items = newsValue[section].items || [];
   }
   console.log('items news:', items);
-  if (items.length === 0) return null;
 
   return (
     <AppWrapper loaded={loaded}>

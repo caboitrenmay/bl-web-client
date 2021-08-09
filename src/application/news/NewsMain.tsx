@@ -13,7 +13,12 @@ interface NIListPropsType {
   selectItem: (newsItem: NewsItems) => void;
 }
 
+interface RowPropsType {
+  value: NewsItems;
+}
+
 export function Main({ items }: MainPropsType) {
+  if (items.length === 0) return null;
   const [currentNews, setCurrentNews] = useState({});
 
   const selectItem = (item: NewsItems) => {
@@ -33,9 +38,6 @@ export function Main({ items }: MainPropsType) {
 }
 
 function Slider({ data, selectItem }: NIListPropsType) {
-  if (!data) {
-    return null;
-  }
   const SliderItem = data.map((value, index) => (
     <div
       key={index}
@@ -113,23 +115,29 @@ function RowFeature({ data, selectItem }: NIListPropsType) {
       href="#"
       rel="noreferrer"
     >
-      <div className="row featurette">
-        <div className="col-md-5">
-          <div className="featurette-heading">{value.title}</div>
-          <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
-        </div>
-        <div className="col-md-7">
-          <p
-            className="lead"
-            dangerouslySetInnerHTML={{ __html: value.content || '' }}
-          />
-        </div>
-      </div>
+      <Row value={value} />
       <Divider />
     </a>
   ));
 
   return <div className="container marketing">{rows}</div>;
+}
+
+function Row({ value }: RowPropsType) {
+  return (
+    <div className="row featurette">
+      <div className="col-md-5">
+        <div className="featurette-heading">{value.title}</div>
+        <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
+      </div>
+      <div className="col-md-7">
+        <p
+          className="lead"
+          dangerouslySetInnerHTML={{ __html: value.content || '' }}
+        />
+      </div>
+    </div>
+  );
 }
 
 function Divider() {
