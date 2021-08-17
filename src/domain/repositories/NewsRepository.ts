@@ -1,5 +1,6 @@
-import { News } from '../entities';
+import { News, RssPack } from '../entities';
 
 export interface NewsRepository {
-  getNews(sectionIndex: number): Promise<News>;
+  getRssEditorChoice(): Promise<RssPack>;
+  getNews(url: string): Promise<News>;
 }

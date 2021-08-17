@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const envConfig = {
-  baseApiUrl: process.env.REACT_APP_BASE_API_URL,
-  base: process.env.REACT_APP_BASE,
-  port: process.env.PORT,
+  baseApiUrl: process.env.REACT_APP_BASE_API_URL || 'http://localhost:3000/v1',
+  base: process.env.REACT_APP_BASE || 'development',
+  port: process.env.PORT || 5000,
 };
 
 console.log('===>  env: ', envConfig);

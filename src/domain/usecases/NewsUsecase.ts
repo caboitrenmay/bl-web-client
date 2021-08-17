@@ -1,4 +1,4 @@
-import { News } from '../entities';
+import { News, RssPack } from '../entities';
 import { NewsRepository } from '../repositories';
 
 export class NewsUsecase {
@@ -7,7 +7,12 @@ export class NewsUsecase {
   constructor(repo: NewsRepository) {
     this.repo = repo;
   }
-  getNews(sectionIndex: number): Promise<News> {
-    return this.repo.getNews(sectionIndex);
+
+  getRssEditorChoice(): Promise<RssPack> {
+    return this.repo.getRssEditorChoice();
+  }
+
+  getNews(url: string): Promise<News> {
+    return this.repo.getNews(url);
   }
 }

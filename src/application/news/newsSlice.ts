@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../../config';
 import { NewsRepositoryImpl } from '../../data';
-import { News, NewsUsecase, urlTitle } from '../../domain';
+import { News, NewsUsecase, Rss, RssPack } from '../../domain';
 
 export interface NewsValue {
   [key: string]: News;
@@ -13,14 +13,16 @@ export interface NewsPayload {
 }
 
 export interface NewsState {
+  rssPack: RssPack | null;
   done: boolean;
-  indexSelected: number;
+  selected: string;
   value: NewsValue;
 }
 
 const initialState: NewsState = {
+  rssPack: null,
   done: true,
-  indexSelected: -1,
+  selected: '',
   value: {},
 };
 
@@ -29,13 +31,26 @@ export const newsSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    getNewsTodo: (state, action: PayloadAction<number>) => {
-      state.indexSelected = action.payload;
+    getRssTodo: state => {
       state.done = false;
     },
-    getNewsFail: (state, action: PayloadAction<number>) => {
-      if (action.payload) {
-        alert(action.payload);
+    getRssFail: (state, action: PayloadAction<Error>) => {
+      if (action.payload.message) {
+        alert(action.payload.message);
+      }
+      state.done = true;
+    },
+    getRssDone: (state, action: PayloadAction<RssPack>) => {
+      state.rssPack = action.payload;
+      state.done = true;
+    },
+    getNewsTodo: (state, action: PayloadAction<string>) => {
+      state.selected = action.payload;
+      state.done = false;
+    },
+    getNewsFail: (state, action: PayloadAction<Error>) => {
+      if (action.payload.message) {
+        alert(action.payload.message);
       }
       state.done = true;
     },
@@ -53,14 +68,21 @@ export const newsSlice = createSlice({
   },
 });
 
-export const { getNewsTodo, getNewsFail, getNewsDone } = newsSlice.actions;
+export const {
+  getRssTodo,
+  getRssFail,
+  getRssDone,
+  getNewsTodo,
+  getNewsFail,
+  getNewsDone,
+} = newsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state.
+export const selectRssPack = (state: RootState) => state.news.rssPack;
 export const selectNewsValue = (state: RootState) => state.news.value;
 export const selectNewsDone = (state: RootState) => state.news.done;
-export const selectNewsSelected = (state: RootState) =>
-  state.news.indexSelected;
+export const selectNewsSelected = (state: RootState) => state.news.selected;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 /**
@@ -69,19 +91,30 @@ export const selectNewsSelected = (state: RootState) =>
 const repo = new NewsRepositoryImpl();
 const service = new NewsUsecase(repo);
 
+export const fetchRssPack = (): AppThunk => async dispatch => {
+  try {
+    dispatch(getRssTodo());
+    const rssPack = await service.getRssEditorChoice();
+    console.log('thunk - fetchRssPack: ', rssPack);
+    dispatch(getRssDone(rssPack));
+  } catch (err) {
+    console.error('thunk - fetchRssPack: ', err);
+    dispatch(getRssFail(err));
+  }
+};
+
 export const fetchNews =
-  (indexSelected: number): AppThunk =>
+  (rss: Rss): AppThunk =>
   async dispatch => {
     try {
-      console.log(`sectionIndex:`, indexSelected);
-      dispatch(getNewsTodo(indexSelected));
-      const key = urlTitle[indexSelected];
-      const news = await service.getNews(indexSelected);
+      console.log(`selected :`, rss.link);
+      dispatch(getNewsTodo(rss.link));
+      const news = await service.getNews(rss.link);
       console.log('thunk - fetchNews: ', news);
-      dispatch(getNewsDone({ key: key, data: news }));
-    } catch (error) {
-      console.error('thunk - fetchNews: ', error);
-      dispatch(getNewsFail(error));
+      dispatch(getNewsDone({ key: rss.link, data: news }));
+    } catch (err) {
+      console.error('thunk - fetchNews: ', err);
+      dispatch(getNewsFail(err));
     }
   };
 

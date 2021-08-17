@@ -1,20 +1,24 @@
 import React from 'react';
-import { urlTitle } from '../../domain';
+import { Rss } from '../../domain';
 import './NewsPage.css';
 
 interface HeaderPropsType {
-  indexSelected: number;
-  handleClick: (indexSelected: number) => void;
+  results: Rss[];
+  selected: string;
+  handleClick: (rss: Rss) => void;
 }
 
-export function Header({ indexSelected, handleClick }: HeaderPropsType) {
-  console.log('index selected: ', indexSelected);
+interface TabPropsType {
+  rss: Rss;
+  isSelected: boolean;
+  handleClick: (rss: Rss) => void;
+}
 
-  const Item = urlTitle.map((value, index) => (
+function Tab(props: TabPropsType) {
+  return (
     <li
-      key={index}
-      className={indexSelected === index ? 'nav-item active' : 'nav-item'}
-      onClick={() => handleClick(index)}
+      className={props.isSelected ? 'nav-item active' : 'nav-item'}
+      onClick={() => props.handleClick(props.rss)}
     >
       <a
         className="nav-link"
@@ -22,12 +26,23 @@ export function Header({ indexSelected, handleClick }: HeaderPropsType) {
         data-toggle="collapse"
         data-target=".navbar-collapse.show"
       >
-        {value}{' '}
-        {indexSelected === index ? (
-          <span className="sr-only">(current)</span>
-        ) : null}
+        {props.rss.name}{' '}
+        {props.isSelected ? <span className="sr-only">(current)</span> : null}
       </a>
     </li>
+  );
+}
+
+export function Header({ selected, results, handleClick }: HeaderPropsType) {
+  console.log('selected: ', selected);
+
+  const Item = results.map(value => (
+    <Tab
+      key={value.id}
+      rss={value}
+      isSelected={selected === value.link}
+      handleClick={handleClick}
+    />
   ));
 
   return (
