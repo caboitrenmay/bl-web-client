@@ -15,6 +15,7 @@ export interface NewsPayload {
 export interface NewsState {
   rssPack: RssPack | null;
   done: boolean;
+  err: Error | null;
   selected: string;
   value: NewsValue;
 }
@@ -22,6 +23,7 @@ export interface NewsState {
 const initialState: NewsState = {
   rssPack: null,
   done: true,
+  err: null,
   selected: '',
   value: {},
 };
@@ -35,9 +37,10 @@ export const newsSlice = createSlice({
       state.done = false;
     },
     getRssFail: (state, action: PayloadAction<Error>) => {
-      if (action.payload.message) {
-        alert(action.payload.message);
-      }
+      // if (action.payload.message) {
+      //   alert(action.payload.message);
+      // }
+      state.err = action.payload;
       state.done = true;
     },
     getRssDone: (state, action: PayloadAction<RssPack>) => {
@@ -49,9 +52,10 @@ export const newsSlice = createSlice({
       state.done = false;
     },
     getNewsFail: (state, action: PayloadAction<Error>) => {
-      if (action.payload.message) {
-        alert(action.payload.message);
-      }
+      // if (action.payload.message) {
+      //   alert(action.payload.message);
+      // }
+      state.err = action.payload;
       state.done = true;
     },
     getNewsDone: (state, action: PayloadAction<NewsPayload>) => {
@@ -82,6 +86,7 @@ export const {
 export const selectRssPack = (state: RootState) => state.news.rssPack;
 export const selectNewsValue = (state: RootState) => state.news.value;
 export const selectNewsDone = (state: RootState) => state.news.done;
+export const selectNewsErr = (state: RootState) => state.news.err;
 export const selectNewsSelected = (state: RootState) => state.news.selected;
 
 // We can also write thunks by hand, which may contain both sync and async logic.

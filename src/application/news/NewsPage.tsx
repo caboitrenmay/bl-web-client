@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../config';
 import { NewsItems, Rss } from '../../domain';
 import AppWrapper from '../component/AppWrapper';
+import { GrowingFullSpinner } from '../component/Spinner';
 import { Header } from './NewsHeader';
 import { Main } from './NewsMain';
 import './NewsPage.css';
@@ -9,6 +10,7 @@ import {
   fetchNews,
   fetchRssPack,
   selectNewsDone,
+  selectNewsErr,
   selectNewsSelected,
   selectNewsValue,
   selectRssPack,
@@ -20,13 +22,14 @@ export default function NewsPage() {
   const newsValue = useAppSelector(selectNewsValue);
   const selected = useAppSelector(selectNewsSelected);
   const loaded = useAppSelector(selectNewsDone);
+  const err = useAppSelector(selectNewsErr);
   // get dispatcher
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     console.log('=> effect selected: ', selected);
     return () => {
-      console.log('clean up indexSelected: ', selected);
+      console.log('clean up selected: ', selected);
     };
   }, [selected]);
 
@@ -64,7 +67,21 @@ export default function NewsPage() {
         selected={selected}
         handleClick={handleClickSection}
       />
-      <Main items={items} />
+      <main role="main">
+        {items.length === 0 ? (
+          <div className="container h-100 d-flex justify-content-center">
+            <div className="my-auto container-loading">
+              {!loaded ? (
+                <GrowingFullSpinner />
+              ) : (
+                <h1 className="display-3">{err?.message}</h1>
+              )}
+            </div>
+          </div>
+        ) : (
+          <Main items={items} />
+        )}
+      </main>
     </AppWrapper>
   );
 }

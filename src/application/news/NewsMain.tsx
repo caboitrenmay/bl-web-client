@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { NewsItems } from '../../domain';
 import { NewsModal } from '../component/BaseModal';
 import './NewsPage.css';
@@ -28,12 +28,12 @@ export function Main({ items }: MainPropsType) {
 
   const slider = items.slice(0, 3) || [];
   return (
-    <main role="main">
+    <Fragment>
       <Slider data={slider} selectItem={selectItem} />
       <RowFeature data={items} selectItem={selectItem} />
       <Footer />
       <NewsModal {...currentNews} />
-    </main>
+    </Fragment>
   );
 }
 

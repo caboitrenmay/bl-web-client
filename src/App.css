@@ -9,6 +9,7 @@
 
 .fixed-loading {
   position: fixed;
+  height: 80px;
   top: 10px;
   right: 0;
   left: 10px;
@@ -45,4 +46,8 @@ a::after {
 .active {
   background-color: #6f42c1;
   color: #6f42c1;
+}
+
+.container-loading {
+  padding: 10em;
 }
