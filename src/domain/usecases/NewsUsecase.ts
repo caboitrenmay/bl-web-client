@@ -8,11 +8,15 @@ export class NewsUsecase {
     this.repo = repo;
   }
 
-  getRssEditorChoice(): Promise<RssPack> {
-    return this.repo.getRssEditorChoice();
+  getRssEditorChoice(source: string): Promise<RssPack> {
+    return this.repo.getRssEditorChoice(source);
   }
 
   getNews(url: string): Promise<News> {
     return this.repo.getNews(url);
+  }
+
+  getSources(): Promise<[string]> {
+    return this.repo.getSources();
   }
 }

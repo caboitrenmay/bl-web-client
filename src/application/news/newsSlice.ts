@@ -13,17 +13,19 @@ export interface NewsPayload {
 }
 
 export interface NewsState {
-  rssPack: RssPack | null;
   done: boolean;
   err: Error | null;
+  sources: [string] | null;
+  rssPack: RssPack | null;
   selected: string;
   value: NewsValue;
 }
 
 const initialState: NewsState = {
-  rssPack: null,
   done: true,
   err: null,
+  sources: null,
+  rssPack: null,
   selected: '',
   value: {},
 };
@@ -33,8 +35,21 @@ export const newsSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    getSourcesTodo: state => {
+      state.done = false;
+    },
+    getSourcesFail: (state, action: PayloadAction<Error>) => {
+      state.err = action.payload;
+      state.done = true;
+    },
+    getSourcesDone: (state, action: PayloadAction<[string]>) => {
+      state.sources = action.payload;
+      state.done = true;
+    },
     getRssTodo: state => {
       state.done = false;
+      state.selected = '';
+      state.value = {};
     },
     getRssFail: (state, action: PayloadAction<Error>) => {
       // if (action.payload.message) {
@@ -73,6 +88,9 @@ export const newsSlice = createSlice({
 });
 
 export const {
+  getSourcesTodo,
+  getSourcesFail,
+  getSourcesDone,
   getRssTodo,
   getRssFail,
   getRssDone,
@@ -83,6 +101,7 @@ export const {
 
 // The function below is called a selector and allows us to select a value from
 // the state.
+export const selectRssSources = (state: RootState) => state.news.sources;
 export const selectRssPack = (state: RootState) => state.news.rssPack;
 export const selectNewsValue = (state: RootState) => state.news.value;
 export const selectNewsDone = (state: RootState) => state.news.done;
@@ -96,17 +115,29 @@ export const selectNewsSelected = (state: RootState) => state.news.selected;
 const repo = new NewsRepositoryImpl();
 const service = new NewsUsecase(repo);
 
-export const fetchRssPack = (): AppThunk => async dispatch => {
+export const fetchSources = (): AppThunk => async dispatch => {
   try {
-    dispatch(getRssTodo());
-    const rssPack = await service.getRssEditorChoice();
-    console.log('thunk - fetchRssPack: ', rssPack);
-    dispatch(getRssDone(rssPack));
+    dispatch(getSourcesTodo());
+    const sources = await service.getSources();
+    dispatch(getSourcesDone(sources));
   } catch (err) {
-    console.error('thunk - fetchRssPack: ', err);
-    dispatch(getRssFail(err));
+    dispatch(getSourcesFail(err));
   }
 };
+
+export const fetchRssPack =
+  (source: string): AppThunk =>
+  async dispatch => {
+    try {
+      dispatch(getRssTodo());
+      const rssPack = await service.getRssEditorChoice(source);
+      console.log('thunk - fetchRssPack: ', rssPack);
+      dispatch(getRssDone(rssPack));
+    } catch (err) {
+      console.error('thunk - fetchRssPack: ', err);
+      dispatch(getRssFail(err));
+    }
+  };
 
 export const fetchNews =
   (rss: Rss): AppThunk =>

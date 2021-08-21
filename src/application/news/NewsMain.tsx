@@ -5,19 +5,22 @@ import { NewsModal } from '../component/BaseModal';
 import './NewsPage.css';
 
 interface MainPropsType {
+  source: string;
   items: NewsItems[];
 }
 
 interface NIListPropsType {
+  source: string;
   data: NewsItems[];
   selectItem: (newsItem: NewsItems) => void;
 }
 
 interface RowPropsType {
+  source: string;
   value: NewsItems;
 }
 
-export function Main({ items }: MainPropsType) {
+export function Main({ source, items }: MainPropsType) {
   if (items.length === 0) return null;
   const [currentNews, setCurrentNews] = useState({});
 
@@ -29,8 +32,8 @@ export function Main({ items }: MainPropsType) {
   const slider = items.slice(0, 3) || [];
   return (
     <Fragment>
-      <Slider data={slider} selectItem={selectItem} />
-      <RowFeature data={items} selectItem={selectItem} />
+      <Slider data={slider} selectItem={selectItem} source={source} />
+      <RowFeature data={items} selectItem={selectItem} source={source} />
       <Footer />
       <NewsModal {...currentNews} />
     </Fragment>
@@ -105,7 +108,7 @@ function Slider({ data, selectItem }: NIListPropsType) {
   );
 }
 
-function RowFeature({ data, selectItem }: NIListPropsType) {
+function RowFeature({ data, selectItem, source }: NIListPropsType) {
   const rows = data.map((value, index) => (
     <a
       key={index}
@@ -115,7 +118,7 @@ function RowFeature({ data, selectItem }: NIListPropsType) {
       href="#"
       rel="noreferrer"
     >
-      <Row value={value} />
+      <Row value={value} source={source} />
       <Divider />
     </a>
   ));
@@ -123,12 +126,15 @@ function RowFeature({ data, selectItem }: NIListPropsType) {
   return <div className="container marketing">{rows}</div>;
 }
 
-function Row({ value }: RowPropsType) {
+function Row({ value, source }: RowPropsType) {
   return (
     <div className="row featurette">
       <div className="col-md-5">
         <div className="featurette-heading">{value.title}</div>
         <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
+        <p className="badge badge-primary">
+          {source}
+        </p>
       </div>
       <div className="col-md-7">
         <p
