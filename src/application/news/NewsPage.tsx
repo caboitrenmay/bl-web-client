@@ -12,6 +12,7 @@ import {
   fetchRssPack,
   fetchSources,
   selectNewsDone,
+  selectNewsErr,
   selectNewsSelected,
   selectNewsValue,
   selectRssPack,
@@ -24,6 +25,7 @@ export default function NewsPage() {
   const newsValue = useAppSelector(selectNewsValue);
   const selected = useAppSelector(selectNewsSelected);
   const loaded = useAppSelector(selectNewsDone);
+  const err = useAppSelector(selectNewsErr);
   const sources = useAppSelector(selectRssSources);
   // get dispatcher
   const dispatch = useAppDispatch();
@@ -90,11 +92,10 @@ export default function NewsPage() {
         {items.length === 0 ? (
           <div className="container h-100 d-flex justify-content-center">
             <div className="my-auto container-loading">
-              {!loaded ? (
-                <GrowingFullSpinner />
-              ) : (
+              {!loaded ? <GrowingFullSpinner /> : null}
+              {err ? (
                 <h1 className="display-3">Có lỗi xảy ra, vui lòng thử lại!</h1>
-              )}
+              ) : null}
             </div>
           </div>
         ) : (

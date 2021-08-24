@@ -60,9 +60,10 @@ export function Header({
           data-toggle="modal"
           data-target="#sourceModal"
         >
-          <span className="badge badge-primary">
+          {currentSource === '' ? 'Báo Lướt' : currentSource}
+          {/* <span className="badge badge-primary">
             {currentSource === '' ? 'Báo Lướt' : currentSource}
-          </span>
+          </span> */}
         </a>
         <button
           className="navbar-toggler"

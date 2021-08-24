@@ -37,6 +37,7 @@ export const newsSlice = createSlice({
   reducers: {
     getSourcesTodo: state => {
       state.done = false;
+      state.err = null;
     },
     getSourcesFail: (state, action: PayloadAction<Error>) => {
       state.err = action.payload;
@@ -45,9 +46,11 @@ export const newsSlice = createSlice({
     getSourcesDone: (state, action: PayloadAction<[string]>) => {
       state.sources = action.payload;
       state.done = true;
+      state.err = null;
     },
     getRssTodo: state => {
       state.done = false;
+      state.err = null;
       state.selected = '';
       state.value = {};
     },
@@ -61,10 +64,12 @@ export const newsSlice = createSlice({
     getRssDone: (state, action: PayloadAction<RssPack>) => {
       state.rssPack = action.payload;
       state.done = true;
+      state.err = null;
     },
     getNewsTodo: (state, action: PayloadAction<string>) => {
       state.selected = action.payload;
       state.done = false;
+      state.err = null;
     },
     getNewsFail: (state, action: PayloadAction<Error>) => {
       // if (action.payload.message) {
@@ -78,6 +83,7 @@ export const newsSlice = createSlice({
         state.value[action.payload.key] = action.payload.data;
       }
       state.done = true;
+      state.err = null;
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
