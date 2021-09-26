@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../config';
 import { NewsItems, Rss } from '../../domain';
 import AppWrapper from '../component/AppWrapper';
 import { CommonModal } from '../component/BaseModal';
+import { Sidebar } from '../component/Sidebar';
 import { GrowingFullSpinner } from '../component/Spinner';
 import { Header } from './NewsHeader';
 import { Main } from './NewsMain';
@@ -32,10 +33,16 @@ export default function NewsPage() {
 
   // local state
   const [currentSource, setCurrentSource] = useState('');
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     console.log('=> effect selected: ', selected);
-    if (rssPack && rssPack.results.length > 0 && selected === '') {
+    if (
+      rssPack &&
+      rssPack.results &&
+      rssPack.results.length > 0 &&
+      selected === ''
+    ) {
       handleClickSection(rssPack.results[0]);
     }
     return () => {
@@ -48,6 +55,13 @@ export default function NewsPage() {
     console.log('=> effect selected: ', currentSource);
     dispatch(fetchRssPack(currentSource));
   }, [currentSource]);
+
+  const closeNav = () => {
+    setWidth(0);
+  };
+  const openNav = () => {
+    setWidth(250);
+  };
 
   const handleClickSection = (rss: Rss) => {
     try {
@@ -73,9 +87,11 @@ export default function NewsPage() {
   }
   console.log('items news:', items);
 
+  const sourcesUi = sources ? ['', ...sources] : [''];
+
   return (
     <AppWrapper loaded={loaded}>
-      <Header
+      {/* <Header
         currentSource={currentSource}
         results={rssPack.results}
         selected={selected}
@@ -86,8 +102,33 @@ export default function NewsPage() {
         sources={sources}
         currentSource={currentSource}
         pickSource={pickSourceHandler}
+      /> */}
+
+      <div id="mySidenav" className="sidenav" style={{ width: width }}>
+        <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
+          ×
+        </a>
+        {sourcesUi.map(v => (
+          <a
+            key={v}
+            href="javascript:void(0)"
+            onClick={() => {
+              closeNav();
+              pickSourceHandler(v);
+            }}
+            className={currentSource === v ? 'active' : ''}
+          >
+            {v === '' ? 'Đề xuất' : v}
+          </a>
+        ))}
+      </div>
+      <Header
+        currentSource={currentSource}
+        results={rssPack.results}
+        selected={selected}
+        handleClick={handleClickSection}
+        handleSource={openNav}
       />
-      {/* {showSource && <CommonModal />} */}
       <main role="main">
         {items.length === 0 ? (
           <div className="container h-100 d-flex justify-content-center">

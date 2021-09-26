@@ -7,6 +7,7 @@ interface HeaderPropsType {
   results: Rss[];
   selected: string;
   handleClick: (rss: Rss) => void;
+  handleSource: () => void;
 }
 
 interface TabPropsType {
@@ -39,8 +40,14 @@ export function Header({
   selected,
   results,
   handleClick,
+  handleSource,
 }: HeaderPropsType) {
   console.log('selected: ', selected);
+  console.log('results: ', results);
+
+  if (!results) {
+    return null;
+  }
 
   const Item = results.map(value => (
     <Tab
@@ -56,11 +63,12 @@ export function Header({
       <nav className="navbar navbar-expand-md navbar-dark fixed-top active">
         <a
           className="navbar-brand"
-          href="#"
-          data-toggle="modal"
-          data-target="#sourceModal"
+          href="javascript:void(0)"
+          onClick={handleSource}
+          // data-toggle="modal"
+          // data-target="#sourceModal"
         >
-          {currentSource === '' ? 'Báo Lướt' : currentSource}
+          ☰ {currentSource === '' ? 'Báo Lướt' : currentSource}
           {/* <span className="badge badge-primary">
             {currentSource === '' ? 'Báo Lướt' : currentSource}
           </span> */}
