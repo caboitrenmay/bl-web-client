@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../config';
 import { NewsItems, Rss } from '../../domain';
 import AppWrapper from '../component/AppWrapper';
-import { CommonModal } from '../component/BaseModal';
-import { Sidebar } from '../component/Sidebar';
 import { GrowingFullSpinner } from '../component/Spinner';
 import { Header } from './NewsHeader';
 import { Main } from './NewsMain';
@@ -91,19 +89,6 @@ export default function NewsPage() {
 
   return (
     <AppWrapper loaded={loaded}>
-      {/* <Header
-        currentSource={currentSource}
-        results={rssPack.results}
-        selected={selected}
-        handleClick={handleClickSection}
-      />
-      <CommonModal
-        title="Chọn nguồn cấp tin tức"
-        sources={sources}
-        currentSource={currentSource}
-        pickSource={pickSourceHandler}
-      /> */}
-
       <div id="mySidenav" className="sidenav" style={{ width: width }}>
         <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
           ×
