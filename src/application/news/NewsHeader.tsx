@@ -53,7 +53,7 @@ export function Header({
     <Tab
       key={value.id}
       rss={value}
-      isSelected={selected === value.link}
+      isSelected={selected === value.url}
       handleClick={handleClick}
     />
   ));

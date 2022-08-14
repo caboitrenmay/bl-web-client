@@ -136,7 +136,8 @@ export const fetchRssPack =
   async dispatch => {
     try {
       dispatch(getRssTodo());
-      const rssPack = await service.getRssEditorChoice(source);
+      // todo
+      const rssPack: RssPack = await service.getRssEditorChoice(source);
       console.log('thunk - fetchRssPack: ', rssPack);
       dispatch(getRssDone(rssPack));
     } catch (err) {
@@ -149,11 +150,11 @@ export const fetchNews =
   (rss: Rss): AppThunk =>
   async dispatch => {
     try {
-      console.log(`selected :`, rss.link);
-      dispatch(getNewsTodo(rss.link));
-      const news = await service.getNews(rss.link);
-      console.log('thunk - fetchNews: ', news);
-      dispatch(getNewsDone({ key: rss.link, data: news }));
+      console.log(`fetchNews selected :`, rss);
+      dispatch(getNewsTodo(rss.url));
+      const news = await service.getNews(rss.url);
+      console.log('>>> thunk - fetchNews: ', news);
+      dispatch(getNewsDone({ key: rss.url, data: news }));
     } catch (err) {
       console.error('thunk - fetchNews: ', err);
       dispatch(getNewsFail(err));

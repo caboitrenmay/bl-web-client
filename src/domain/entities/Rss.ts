@@ -2,7 +2,7 @@ export interface Rss {
   active: boolean;
   editorChoice: boolean;
   name: string;
-  link: string;
+  url: string;
   source: string;
   id: string;
 }
