@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../../config';
 import { NewsRepositoryImpl } from '../../data';
-import { News, NewsUsecase, Rss, RssPack } from '../../domain';
+import { News, NewsUsecase, Rss } from '../../domain';
 
 export interface NewsValue {
   [key: string]: News;
@@ -16,7 +16,7 @@ export interface NewsState {
   done: boolean;
   err: Error | null;
   sources: [string] | null;
-  rssPack: RssPack | null;
+  rssPack: Rss[] | null;
   selected: string;
   value: NewsValue;
 }
@@ -61,7 +61,7 @@ export const newsSlice = createSlice({
       state.err = action.payload;
       state.done = true;
     },
-    getRssDone: (state, action: PayloadAction<RssPack>) => {
+    getRssDone: (state, action: PayloadAction<Rss[]>) => {
       state.rssPack = action.payload;
       state.done = true;
       state.err = null;
@@ -137,7 +137,7 @@ export const fetchRssPack =
     try {
       dispatch(getRssTodo());
       // todo
-      const rssPack: RssPack = await service.getRssEditorChoice(source);
+      const rssPack: Rss[] = await service.getRssEditorChoice(source);
       console.log('thunk - fetchRssPack: ', rssPack);
       dispatch(getRssDone(rssPack));
     } catch (err) {

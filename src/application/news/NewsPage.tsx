@@ -37,11 +37,10 @@ export default function NewsPage() {
     console.log('=> effect selected: ', selected);
     if (
       rssPack &&
-      rssPack.results &&
-      rssPack.results.length > 0 &&
+      rssPack.length > 0 &&
       selected === ''
     ) {
-      handleClickSection(rssPack.results[0]);
+      handleClickSection(rssPack[0]);
     }
     return () => {
       console.log('clean up selected: ', selected);
@@ -109,7 +108,7 @@ export default function NewsPage() {
       </div>
       <Header
         currentSource={currentSource}
-        results={rssPack.results}
+        results={rssPack}
         selected={selected}
         handleClick={handleClickSection}
         handleSource={openNav}

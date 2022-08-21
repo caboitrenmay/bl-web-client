@@ -130,7 +130,7 @@ function Row({ value, source }: RowPropsType) {
   return (
     <div className="row featurette">
       <div className="col-md-5">
-        <div className="featurette-heading">{value.title}</div>
+        <div className="featurette-heading" dangerouslySetInnerHTML={{ __html: value.title || '' }} />
         <p className="text-muted">{moment(value.pubDate).fromNow()}</p>
         <p className="badge badge-primary">
           {source}

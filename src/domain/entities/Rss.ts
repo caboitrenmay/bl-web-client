@@ -7,10 +7,10 @@ export interface Rss {
   id: string;
 }
 
-export interface RssPack {
-  results: Rss[];
-  page: number;
-  limit: number;
-  totalPages: number;
-  totalResults: number;
-}
+// export interface RssPack {
+//   results: Rss[];
+//   page: number;
+//   limit: number;
+//   totalPages: number;
+//   totalResults: number;
+// }

@@ -14,8 +14,8 @@
 }
 
 .lead img {
-  width: 180px;
-  height: 120px;
+  width: 300px;
+  height: 175px;
 }
 
 /* .row img {
@@ -34,15 +34,15 @@
 
 @media (min-width: 40em) {
   .lead img {
-    width: 210px;
-    height: 140px;
+    width: 160px;
+    height: 90px;
   }
 }
 
 @media (min-width: 62em) {
   .lead img {
-    width: 240px;
-    height: 160px;
+    width: 700px;
+    height: 400px;
   }
 }
 

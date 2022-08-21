@@ -1,9 +1,9 @@
-import { News, NewsRepository, RssPack } from '../../domain';
-import { getFeedSource, getNewsFeed, getRss } from '../api';
+import { News, NewsRepository, Rss } from '../../domain';
+import { getEditorRss, getFeedSource, getNewsFeed } from '../api';
 
 export class NewsRepositoryImpl implements NewsRepository {
-  getRssEditorChoice(source: string): Promise<RssPack> {
-    return getRss(source);
+  getRssEditorChoice(source: string): Promise<Rss[]> {
+    return getEditorRss(source);
   }
 
   getNews(url: string): Promise<News> {

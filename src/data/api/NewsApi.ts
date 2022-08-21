@@ -1,14 +1,8 @@
-import { News, RssPack } from '../../domain';
+import { News, Rss } from '../../domain';
 import { get, post } from './request';
 
-export function getRss(source: string): Promise<RssPack> {
-  const query =
-    source === '' ? { limit: 20, page: 1 } : { limit: 20, page: 1, source };
-  return get('/news/rss', query);
-}
-
-export function getEditorRss({limit= 20, page= 1}): Promise<RssPack> {
-  return get('/news/rss', {limit, page});
+export function getEditorRss(source: string): Promise<Rss[]> {
+  return get('/news/rss/editor', { source: source === '' ? undefined : source });
 }
 
 export function getNewsFeed(proxy: string): Promise<News> {
