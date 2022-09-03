@@ -35,6 +35,7 @@ export const newsSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    // Lấy source
     getSourcesTodo: state => {
       state.done = false;
       state.err = null;
@@ -48,6 +49,8 @@ export const newsSlice = createSlice({
       state.done = true;
       state.err = null;
     },
+
+    // Lấy rss pack
     getRssTodo: state => {
       state.done = false;
       state.err = null;
@@ -66,6 +69,8 @@ export const newsSlice = createSlice({
       state.done = true;
       state.err = null;
     },
+
+    // Lấy news feed
     getNewsTodo: (state, action: PayloadAction<string>) => {
       state.selected = action.payload;
       state.done = false;
@@ -125,8 +130,10 @@ export const fetchSources = (): AppThunk => async dispatch => {
   try {
     dispatch(getSourcesTodo());
     const sources = await service.getSources();
+    console.log('Thunk - fetchSources: ', sources);
     dispatch(getSourcesDone(sources));
   } catch (err) {
+    console.error('Thunk - fetchSources: ', err);
     dispatch(getSourcesFail(err));
   }
 };
@@ -136,12 +143,11 @@ export const fetchRssPack =
   async dispatch => {
     try {
       dispatch(getRssTodo());
-      // todo
       const rssPack: Rss[] = await service.getRssEditorChoice(source);
-      console.log('thunk - fetchRssPack: ', rssPack);
+      console.log('Thunk - fetchRssPack: ', rssPack);
       dispatch(getRssDone(rssPack));
     } catch (err) {
-      console.error('thunk - fetchRssPack: ', err);
+      console.error('Thunk - fetchRssPack: ', err);
       dispatch(getRssFail(err));
     }
   };
@@ -153,10 +159,10 @@ export const fetchNews =
       console.log(`fetchNews selected :`, rss);
       dispatch(getNewsTodo(rss.url));
       const news = await service.getNews(rss.url);
-      console.log('>>> thunk - fetchNews: ', news);
+      console.log('Thunk - fetchNews: ', news);
       dispatch(getNewsDone({ key: rss.url, data: news }));
     } catch (err) {
-      console.error('thunk - fetchNews: ', err);
+      console.error('Thunk - fetchNews: ', err);
       dispatch(getNewsFail(err));
     }
   };

@@ -42,8 +42,6 @@ export function Header({
   handleClick,
   handleSource,
 }: HeaderPropsType) {
-  console.log('selected: ', selected);
-  console.log('results: ', results);
 
   if (!results) {
     return null;
@@ -63,7 +61,7 @@ export function Header({
       <nav className="navbar navbar-expand-md navbar-dark fixed-top active">
         <a
           className="navbar-brand"
-          href="javascript:void(0)"
+          href="#!"
           onClick={handleSource}
           // data-toggle="modal"
           // data-target="#sourceModal"

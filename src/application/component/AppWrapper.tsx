@@ -8,7 +8,7 @@ interface Props {
 
 export default function AppWrapper(props: Props) {
   const { loaded } = props;
-  console.log('==> loaded DONE: ', loaded);
+  // console.log('==> loaded DONE: ', loaded);
   return (
     <>
       {loaded ? null : (

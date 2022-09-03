@@ -22,7 +22,7 @@ export default function NewsPage() {
   // map state to props
   const rssPack = useAppSelector(selectRssPack);
   const newsValue = useAppSelector(selectNewsValue);
-  const selected = useAppSelector(selectNewsSelected);
+  const rssSelected = useAppSelector(selectNewsSelected);
   const loaded = useAppSelector(selectNewsDone);
   const err = useAppSelector(selectNewsErr);
   const sources = useAppSelector(selectRssSources);
@@ -34,22 +34,28 @@ export default function NewsPage() {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    console.log('=> effect selected: ', selected);
+    console.log('>>> useEffect rssPack: ', rssPack);
     if (
       rssPack &&
       rssPack.length > 0 &&
-      selected === ''
+      rssSelected === ''
     ) {
+      // Chọn section đầu tiên trong bộ rss pack
       handleClickSection(rssPack[0]);
     }
     return () => {
-      console.log('clean up selected: ', selected);
+      console.log('useEffect rssPack clean up: ', rssPack);
     };
   }, [rssPack]);
 
+  // dispatch mỗi lần change currentSource
   useEffect(() => {
-    dispatch(fetchSources());
-    console.log('=> effect selected: ', currentSource);
+    console.log('>>> useEffect currentSource: ', currentSource);
+    // Lấy source 1 lần
+    if (!sources) {
+       dispatch(fetchSources());
+    }
+
     dispatch(fetchRssPack(currentSource));
   }, [currentSource]);
 
@@ -60,8 +66,10 @@ export default function NewsPage() {
     setWidth(250);
   };
 
+  // dispatch lấy news feed
   const handleClickSection = (rss: Rss) => {
     try {
+      // scroll lên đầu trang
       window.scroll({ top: 0, left: 0, behavior: 'smooth' });
       return dispatch(fetchNews(rss));
     } catch (e) {
@@ -70,7 +78,7 @@ export default function NewsPage() {
   };
 
   const pickSourceHandler = (pickSource: string) => {
-    console.log('setSource: ', pickSource);
+    console.log('>> setSource: ', pickSource);
     setCurrentSource(pickSource);
   };
 
@@ -78,24 +86,23 @@ export default function NewsPage() {
 
   let items: NewsItems[] = [];
   let generator = '';
-  if (newsValue && newsValue[selected]) {
-    items = newsValue[selected].items || [];
-    generator = newsValue[selected].generator || '';
+  if (newsValue && newsValue[rssSelected]) {
+    items = newsValue[rssSelected].items || [];
+    generator = newsValue[rssSelected].generator || '';
   }
-  console.log('items news:', items);
 
   const sourcesUi = sources ? ['', ...sources] : [''];
 
   return (
     <AppWrapper loaded={loaded}>
       <div id="mySidenav" className="sidenav" style={{ width: width }}>
-        <a href="javascript:void(0)" className="closebtn" onClick={closeNav}>
+        <a href="#!" className="closebtn" onClick={closeNav}>
           ×
         </a>
         {sourcesUi.map(v => (
           <a
             key={v}
-            href="javascript:void(0)"
+            href="#!"
             onClick={() => {
               closeNav();
               pickSourceHandler(v);
@@ -109,7 +116,7 @@ export default function NewsPage() {
       <Header
         currentSource={currentSource}
         results={rssPack}
-        selected={selected}
+        selected={rssSelected}
         handleClick={handleClickSection}
         handleSource={openNav}
       />

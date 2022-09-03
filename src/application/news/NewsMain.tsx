@@ -1,8 +1,11 @@
 import moment from 'moment';
+import 'moment/locale/vi';
 import React, { Fragment, useState } from 'react';
 import { NewsItems } from '../../domain';
 import { NewsModal } from '../component/BaseModal';
 import './NewsPage.css';
+
+moment.locale('vi');
 
 interface MainPropsType {
   source: string;
