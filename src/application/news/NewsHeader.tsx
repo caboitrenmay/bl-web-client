@@ -63,25 +63,13 @@ export function Header({
           className="navbar-brand"
           href="#!"
           onClick={handleSource}
-          // data-toggle="modal"
-          // data-target="#sourceModal"
         >
-          ☰ {currentSource === '' ? 'Báo Lướt' : currentSource}
-          {/* <span className="badge badge-primary">
+          {/* ☰ {currentSource === '' ? 'Báo Lướt' : currentSource} */}
+          ☰ <span className="badge badge-primary">
             {currentSource === '' ? 'Báo Lướt' : currentSource}
-          </span> */}
+          </span>
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
+
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav mr-auto">{Item}</ul>
         </div>

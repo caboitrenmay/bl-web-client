@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
-import NewsPage from './application/news/NewsPage';
+import SiteLayout from './application/SiteLayout';
 
 function App() {
-  return <NewsPage />;
+
+  return (
+    <SiteLayout />
+  );
 }
 
 export default App;
